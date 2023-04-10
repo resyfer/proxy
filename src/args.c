@@ -68,7 +68,7 @@ parse_args(int argc, char* argv[])
 			break;
 
 		case 'v':
-			arglist.help = 1;
+			arglist.version = 1;
 			break;
 
 		default:
