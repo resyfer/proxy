@@ -38,7 +38,7 @@ help(void)
 	pcol("    $ ", PURPLE); pcol(NAME " -r\n", YELLOW);
 	pcol("\n\n", WHITE);
 	pcol("Please report any bugs or features at:\n", BLUE);
-	pcol("https://github.com/gdsc-nits-org/proxy\n", PURPLE);
+	pcol("https://github.com/resyfer/proxy\n", PURPLE);
 }
 
 void
