@@ -47,13 +47,13 @@ parser(config_t **conf, const char* path)
 	#elif _WIN32
 
 		// https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea
-
-		HANDLE h_file = CreateFileA(path, GENERIC_WRITE,
+		HANDLE h_file = CreateFileA(path, GENERIC_READ,
 						FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL,
 						NULL);
 
 		if(h_file == INVALID_HANDLE_VALUE) {
 			pcol("Failed to open config file\n", RED);
+			goto end;
 		}
 
 		HANDLE h_map_file = CreateFileMapping(h_file, NULL, PAGE_READONLY, 0, 0, NULL);
@@ -89,7 +89,12 @@ parser(config_t **conf, const char* path)
 	for(int i = 0; i<conf_size; i++)
 	{
 		// {LF}*
-		while(file[i] == '\n') i++;
+
+		#ifdef __unix__
+		while(i < conf_size && file[i] == '\n') i++;
+		#elif _WIN32
+		while(i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n') i+=2;
+		#endif
 
 		// EOF
 		if(i == conf_size) {
@@ -119,12 +124,15 @@ parser(config_t **conf, const char* path)
 
 			table->header = str_n_dup(buf, MAX_SIZE);
 
-
 			// COLLECTION
 			while(true)
 			{
 				// {LF}+
+				#ifdef __unix__
 				while(i < conf_size && file[i] == '\n') i++;
+				#elif _WIN32
+				while(i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n') i+=2;
+				#endif
 
 				// EOF
 				if(i == conf_size) {
@@ -174,8 +182,15 @@ parser(config_t **conf, const char* path)
 				// TEXT (Value)
 				str_rst(buf);
 				buf_idx = 0;
+				
+				#ifdef __unix__
 				while(buf_idx < MAX_SIZE && i < conf_size && file[i] != '\n')
 					buf[buf_idx++] = file[i++];
+				#elif _WIN32
+				while(buf_idx < MAX_SIZE &&
+						(i < conf_size && file[i] != '\r' && file[i+1] != '\n'))
+					buf[buf_idx++] = file[i++];
+				#endif
 
 				if(buf_idx == MAX_SIZE) {
 					is_invalid = true;

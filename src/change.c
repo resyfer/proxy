@@ -79,7 +79,6 @@ get_choice(settings_t *conf, const char* def)
 static void
 set_source_file(proxy_t *proxy)
 {
-	// TODO: Cross-platform
 	FILE *sh = fopen(source_path, "w+");
 	fprintf(sh, "#!/bin/bash\n");
 	fprintf(sh, "alias sudo='sudo -E'\n");
@@ -91,7 +90,6 @@ set_source_file(proxy_t *proxy)
 static void
 unset_source_file(void)
 {
-	// TODO: Cross-platform
 	FILE *sh = fopen(source_path, "w+");
 	fprintf(sh, "#!/bin/bash\n");
 	fclose(sh);
@@ -106,7 +104,9 @@ set_proxy(settings_t *conf, proxy_t *proxy)
 
 	load(&loader, YELLOW);
 
+	#ifdef __unix__
 	set_source_file(proxy);
+	#endif
 
 	load(&loader, YELLOW);
 
@@ -124,10 +124,17 @@ set_proxy(settings_t *conf, proxy_t *proxy)
 
 	load(&loader, YELLOW);
 
-	// TODO: Cross-platform
+	// TODO: Remove College
+
 	char command[2048] = {0};
-	sprintf(command, "%s %s %s %s %s %s %s", /* Can't use source because Ubuntu has dash not bash */
-		script_path_set, extras_arr, conf->os, proxy->host, proxy->port, conf->desktop, conf->college);
+
+	#ifdef __unix__
+	sprintf(command, "%s %s %s %s %s %s", /* Can't use source because Ubuntu has dash not bash */
+		script_path_set, extras_arr, proxy->host, proxy->port, conf->desktop, conf->college);
+	#elif _WIN32
+	sprintf(command, "PowerShell -File %s %s %s %s",
+		script_path_set, extras_arr, proxy->host, proxy->port);
+	#endif
 
 	load(&loader, YELLOW);
 
@@ -149,7 +156,9 @@ unset_proxy(settings_t *conf)
 
 	load(&loader, YELLOW);
 
+	#ifdef __unix__
 	unset_source_file();
+	#endif
 
 	load(&loader, YELLOW);
 
@@ -169,9 +178,13 @@ unset_proxy(settings_t *conf)
 		}
 	}
 
-	// TODO: Cross-platform
-	sprintf(command, "%s %s %s %s", /* Can't use source because Ubuntu has dash not bash */
-			script_path_unset, extras_arr,conf->os, conf->desktop);
+	#ifdef __unix__
+	sprintf(command, "%s %s %s", /* Can't use source because Ubuntu has dash not bash */
+			script_path_unset, extras_arr, conf->desktop);
+	#elif _WIN32
+	sprintf(command, "PowerShell -File %s -ArgumentList \"%s\"",
+			script_path_unset, extras_arr);
+	#endif
 
 	load(&loader, YELLOW);
 

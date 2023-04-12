@@ -10,9 +10,11 @@ int SUPPORT_COLORS;
 const char*
 colorify(color_t color)
 {
+	#ifdef __unix__
 	if(!SUPPORT_COLORS) {
 		return "";
 	}
+	#endif
 
 	if(color < BLACK || color > WHITE) {
 		printf("Incorrected Colors\n");

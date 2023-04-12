@@ -27,28 +27,54 @@ global_vars(void)
 	char buf[MAX_SIZE] = {0};
 
 	// TODO: Cross-platform
-	sprintf(buf, "%s", getenv("HOME"));
-	home = str_n_dup(buf, MAX_SIZE);
 
-	str_rst(buf);
-	sprintf(buf, "%s/.config/proxy", home);
-	config_dir = str_n_dup(buf, MAX_SIZE);
+	#ifdef __unix__
 
-	str_rst(buf);
-	sprintf(buf, "%s/config", config_dir);
-	config_file_path = str_n_dup(buf, MAX_SIZE);
+		sprintf(buf, "%s", getenv("HOME"));
+		home = str_n_dup(buf, MAX_SIZE);
 
-	str_rst(buf);
-	sprintf(buf, "%s/set.sh", config_dir);
-	script_path_set = str_n_dup(buf, MAX_SIZE);
+		str_rst(buf);
+		sprintf(buf, "%s/.config/proxy", home);
+		config_dir = str_n_dup(buf, MAX_SIZE);
 
-	str_rst(buf);
-	sprintf(buf, "%s/unset.sh", config_dir);
-	script_path_unset = str_n_dup(buf, MAX_SIZE);
+		str_rst(buf);
+		sprintf(buf, "%s/config", config_dir);
+		config_file_path = str_n_dup(buf, MAX_SIZE);
 
-	str_rst(buf);
-	sprintf(buf, "%s/proxy.sh", config_dir);
-	source_path = str_n_dup(buf, MAX_SIZE);
+		str_rst(buf);
+		sprintf(buf, "%s/set.sh", config_dir);
+		script_path_set = str_n_dup(buf, MAX_SIZE);
+
+		str_rst(buf);
+		sprintf(buf, "%s/unset.sh", config_dir);
+		script_path_unset = str_n_dup(buf, MAX_SIZE);
+
+		str_rst(buf);
+		sprintf(buf, "%s/proxy.sh", config_dir);
+		source_path = str_n_dup(buf, MAX_SIZE);
+		
+	#elif _WIN32
+	
+		home = NULL;
+		
+		sprintf(buf, "C:/Users/%s/proxy", getenv("USERNAME"));
+		config_dir = str_n_dup(buf, MAX_SIZE);
+
+		str_rst(buf);
+		sprintf(buf, "%s/config", config_dir);
+		config_file_path = str_n_dup(buf, MAX_SIZE);
+
+		str_rst(buf);
+		sprintf(buf, "%s/set.ps1", config_dir);
+		script_path_set = str_n_dup(buf, MAX_SIZE);
+
+		str_rst(buf);
+		sprintf(buf, "%s/unset.ps1", config_dir);
+		script_path_unset = str_n_dup(buf, MAX_SIZE);
+		
+		source_path = NULL;
+
+	#endif
 }
 
 int
@@ -81,7 +107,7 @@ main(int argc, char *argv[])
 
 	if(config == NULL) {
 		pcol("Config File Not Found\n", RED);
-		pcol("Please follow the installation instructions properly!", PURPLE);
+		pcol("Please follow the installation instructions properly!\n", PURPLE);
 		return 1;
 	}
 

@@ -4,9 +4,7 @@
 # extra=(${1//,/ }) # Can't use this as dash in Ubuntu doesn't support it
 EXTRA_STR="$1"
 
-
-OS=$2
-DE=$3
+DE=$2
 
 # Reading Extras
 IFS=","
@@ -27,10 +25,6 @@ for item in $EXTRA_STR; do
 done
 IFS=" "
 
-if [ "$OS" = "Linux" ]; then
-
-  if [ "$DE" = "GNOME" ]; then
-    gsettings set org.gnome.system.proxy mode 'none'
-  fi
-
+if [ "$DE" = "GNOME" ]; then
+  gsettings set org.gnome.system.proxy mode 'none'
 fi
