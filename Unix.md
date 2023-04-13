@@ -15,18 +15,20 @@ Tools required:
 - gcc
 - make
 
-**1:**
+**1) Check GCC and Make:**
 
 Check if `gcc` command works:
 ```sh
 $ gcc --version
 ```
 
+Check if `make` command works:
+
+**2) Clone**
+
+Clone the repo, and go to the folder in your terminal.
+
 **3) Build/Install:**
-
-Clone the repo, and [go to the folder in MSYS2 terminal](https://stackoverflow.com/questions/11376899/browsing-folders-in-msys).
-
-While staying in MSYS2 terminal:
 
 Build:
 ```sh
