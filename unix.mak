@@ -69,7 +69,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile
 install: ./$(BIN_DIR)/$(BIN)
 	@echo "Installing!!"
 	@sudo cp ./$(BIN_DIR)/$(BIN) /usr/bin
-	@sudo mkdir -p $(CONFIG_PATH)
+	@if [ ! -d $(CONFIG_PATH) ]; then \
+		sudo mkdir -p $(CONFIG_PATH); \
+	else \
+		echo "Config Directory Already Exists. Skipping..."; \
+	fi
 	@sudo cp ./scripts/set.sh $(CONFIG_PATH)
 	@sudo chmod +x $(CONFIG_PATH)/set.sh
 	@sudo chown $(SUDO_USER):$(SUDO_USER) $(CONFIG_PATH)/set.sh
