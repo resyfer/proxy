@@ -22,9 +22,19 @@
 #define CYAN    36
 #define WHITE   37
 
+#ifdef __unix__
 #define COLOR_CODE(COLOR, STYLE) (ESC "[" STR(STYLE) ";" STR(COLOR) "m")
 
 #define RESET ESC "[0m"
+#elif _WIN32
+// Dunno the condition in Windows Terminals. VSCode Inbuilt terminal supports it.
+// while powershell's terminal or CMD
+
+// So no colors for now.
+#define COLOR_CODE(COLOR, STYLE) ("")
+
+#define RESET ""
+#endif
 
 typedef unsigned short int color_t;
 

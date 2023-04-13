@@ -14,6 +14,13 @@ colorify(color_t color)
 	if(!SUPPORT_COLORS) {
 		return "";
 	}
+	#elif _WIN32
+	// Dunno the condition in Windows Terminals. VSCode Inbuilt terminal supports it.
+	// while powershell's terminal or CMD
+	// return "";
+	if(!SUPPORT_COLORS) {
+		return "";
+	}
 	#endif
 
 	if(color < BLACK || color > WHITE) {
@@ -31,22 +38,8 @@ colorify(color_t color)
 	// }
 
 	switch(color) {
-	case BLACK:
-		return ESC "[" STR(NORMAL) ";" STR(BLACK) "m";
-	case RED:
-		return ESC "[" STR(NORMAL) ";" STR(RED) "m";
-	case GREEN:
-		return ESC "[" STR(NORMAL) ";" STR(GREEN) "m";
-	case YELLOW:
-		return ESC "[" STR(NORMAL) ";" STR(YELLOW) "m";
-	case BLUE:
-		return ESC "[" STR(NORMAL) ";" STR(BLUE) "m";
-	case PURPLE:
-		return ESC "[" STR(NORMAL) ";" STR(PURPLE) "m";
-	case CYAN:
-		return ESC "[" STR(NORMAL) ";" STR(CYAN) "m";
-	case WHITE:
-		return ESC "[" STR(NORMAL) ";" STR(WHITE) "m";
+	case BLACK | RED | GREEN | YELLOW | BLUE | PURPLE | CYAN | WHITE:
+		return COLOR_CODE(color, NORMAL);
 	default:
 		return "";
 	}

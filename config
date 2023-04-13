@@ -1,8 +1,4 @@
 [proxy]
-college = NITS
-desktop = GNOME
-os = Linux
-shell = zsh
 extra = git
 
 [BH9]

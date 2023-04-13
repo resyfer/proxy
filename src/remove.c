@@ -1,9 +1,10 @@
-#include <include/remove.h>
-#include <include/colors.h>
-#include <include/loader.h>
-#include <include/global.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <include/colors.h>
+#include <include/global.h>
+#include <include/loader.h>
+#include <include/remove.h>
 
 int
 choice(void)
@@ -22,6 +23,7 @@ choice(void)
 void
 uninstall(void)
 {
+	#ifdef __unix__
 	pcol("We're sorry to see you go!\n\n", PURPLE);
 
 	pcol("We would be delighted to hear about any bugs/issues or features at\n", GREEN);
@@ -43,12 +45,7 @@ uninstall(void)
 
 	char command[MAX_SIZE] = {0};
 
-	#ifdef __unix__
 	sprintf(command, "sudo rm -rf %s", config_dir);
-	#elif _WIN32
-	sprintf(command, "Remove-Item -Path \"%s\" -Force", config_dir);
-	printf("%s", command);
-	#endif
 
 	load(&loader, RED);
 
@@ -56,15 +53,26 @@ uninstall(void)
 
 	load(&loader, RED);
 
-	#ifdef __unix__
 	system("sudo rm /usr/bin/proxy");
 
 	load(&loader, RED);
 
 	system("sed -i \"/source \\/home\\/" USER "\\/.config\\/proxy\\/proxy.sh/d\" /home/" USER "/" SHELL_CONFIG_FILE);
+	
 	load(&loader, RED);
-	#endif
-
-
+	
 	pcol("Done!\n", RED);
+
+	#elif _WIN32
+
+		// TODO
+		// There is an error (atleast when I try), where the config file refuses to be removed as
+		// it is "used by another process".
+		char buf[MAX_SIZE] = {0};
+		sprintf(buf, "Please remove this folder \"%s\" to complete uninstall this utility!\n\nPlease also remove the path of this folder from PATH variables as well!", config_dir);
+
+		pcol(buf, PURPLE);
+
+	#endif
+	
 }

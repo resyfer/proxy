@@ -8,9 +8,7 @@ typedef struct proxy {
 } proxy_t;
 
 typedef struct settings {
-  char *college;
   char *desktop;
-  char *os;
   char *shell;
 
   proxy_t *proxy;

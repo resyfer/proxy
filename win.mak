@@ -50,8 +50,16 @@ $(BIN_DIR)/$(BIN): $(OBJFILES) win.mak Makefile
 
 install: ./$(BIN_DIR)/$(BIN) win.mak Makefile
 	@echo "Installing!!"
-	@mkdir -p $(CONFIG_PATH)
-	@cp ./config $(CONFIG_PATH)
+	@if [ ! -d $(CONFIG_PATH) ]; then \
+		mkdir -p $(CONFIG_PATH); \
+	else \
+		echo "Proxy Config Directory already exists. Skipping..."; \
+	fi
+	@if [ ! -f $(CONFIG_PATH)/config ]; then \
+		cp ./config $(CONFIG_PATH); \
+	else \
+		echo "Config already exists. Skipping..."; \
+	fi
 	@cp ./scripts/set.ps1 $(CONFIG_PATH)/set.ps1
 	@cp ./scripts/unset.ps1 $(CONFIG_PATH)/unset.ps1
 	@cp ./$(BIN_DIR)/$(BIN).exe $(CONFIG_PATH)

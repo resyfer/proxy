@@ -1,5 +1,5 @@
-#include <include/loader.h>
 #include <include/colors.h>
+#include <include/loader.h>
 
 #ifdef __unix__
 #include <unistd.h>

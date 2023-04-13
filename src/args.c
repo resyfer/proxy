@@ -3,11 +3,11 @@
 #include <unistd.h>
 
 #include <include/args.h>
-#include <include/colors.h>
 #include <include/change.h>
-#include <include/update.h>
-#include <include/remove.h>
+#include <include/colors.h>
 #include <include/global.h>
+#include <include/remove.h>
+#include <include/update.h>
 
 static void version(void);
 static void help(void);

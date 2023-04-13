@@ -1,7 +1,7 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef __unix__
 #include <unistd.h>
@@ -79,20 +79,28 @@ get_choice(settings_t *conf, const char* def)
 static void
 set_source_file(proxy_t *proxy)
 {
+	#ifdef __unix__
+	
 	FILE *sh = fopen(source_path, "w+");
 	fprintf(sh, "#!/bin/bash\n");
 	fprintf(sh, "alias sudo='sudo -E'\n");
 	fprintf(sh, "export http_proxy=\"http://%s:%s\"\n", proxy->host, proxy->port);
 	fprintf(sh, "export https_proxy=\"http://%s:%s\"\n", proxy->host, proxy->port);
 	fclose(sh);
+
+	#endif
 }
 
 static void
 unset_source_file(void)
 {
+	#ifdef __unix__
+
 	FILE *sh = fopen(source_path, "w+");
 	fprintf(sh, "#!/bin/bash\n");
 	fclose(sh);
+
+	#endif
 }
 
 static void
@@ -124,13 +132,11 @@ set_proxy(settings_t *conf, proxy_t *proxy)
 
 	load(&loader, YELLOW);
 
-	// TODO: Remove College
-
 	char command[2048] = {0};
 
 	#ifdef __unix__
-	sprintf(command, "%s %s %s %s %s %s", /* Can't use source because Ubuntu has dash not bash */
-		script_path_set, extras_arr, proxy->host, proxy->port, conf->desktop, conf->college);
+	sprintf(command, "%s %s %s %s %s", /* Can't use source because Ubuntu has dash not bash */
+		script_path_set, extras_arr, proxy->host, proxy->port, conf->desktop);
 	#elif _WIN32
 	sprintf(command, "PowerShell -File %s %s %s %s",
 		script_path_set, extras_arr, proxy->host, proxy->port);
@@ -157,7 +163,9 @@ unset_proxy(settings_t *conf)
 	load(&loader, YELLOW);
 
 	#ifdef __unix__
+
 	unset_source_file();
+
 	#endif
 
 	load(&loader, YELLOW);
@@ -179,11 +187,15 @@ unset_proxy(settings_t *conf)
 	}
 
 	#ifdef __unix__
+
 	sprintf(command, "%s %s %s", /* Can't use source because Ubuntu has dash not bash */
 			script_path_unset, extras_arr, conf->desktop);
+
 	#elif _WIN32
-	sprintf(command, "PowerShell -File %s -ArgumentList \"%s\"",
+
+	sprintf(command, "PowerShell -File %s %s",
 			script_path_unset, extras_arr);
+
 	#endif
 
 	load(&loader, YELLOW);
@@ -201,9 +213,7 @@ unset_proxy(settings_t *conf)
 static void
 free_user_conf(settings_t **conf)
 {
-	free((*conf)->college);
 	free((*conf)->desktop);
-	free((*conf)->os);
 	free((*conf)->shell);
 
 	for(int i = 0; i < (*conf)->extras_count; i++)

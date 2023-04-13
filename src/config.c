@@ -5,20 +5,20 @@
 #include <string.h>
 
 #if __unix__
-#include <stddef.h>
 #include <fcntl.h>
-#include <sys/stat.h>
+#include <stddef.h>
 #include <sys/mman.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #elif _WIN32
 #include <windows.h>
 #endif
 
+#include <include/colors.h>
+#include <include/config.h>
+#include <include/global.h>
 #include <include/parser.h>
 #include <include/util.h>
-#include <include/config.h>
-#include <include/colors.h>
-#include <include/global.h>
 
 void
 config_parse(settings_t **conf)
@@ -34,6 +34,11 @@ config_parse(settings_t **conf)
 	user_settings->extras_count = 0;
 	user_settings->extras = NULL;
 
+	#ifdef _WIN32
+	user_settings->desktop = NULL;
+	user_settings->shell = NULL;
+	#endif
+
 	for(int i = 0; i< config->n_tables; i++)
 	{
 		table_t *table = config->tables[i];
@@ -48,15 +53,17 @@ config_parse(settings_t **conf)
 				/* Row */
 				row_t *row = table->rows[j];
 
-				if(!strcmp(row->key, "college")) {
-					user_settings->college = str_n_dup(row->value, MAX_SIZE);
-				} else if(!strcmp(row->key, "desktop")) {
+				#ifdef __unix__
+
+				if(!strcmp(row->key, "desktop")) {
 					user_settings->desktop = str_n_dup(row->value, MAX_SIZE);
-				} else if(!strcmp(row->key, "os")) {
-					user_settings->os = str_n_dup(row->value, MAX_SIZE);
 				} else if(!strcmp(row->key, "shell")) {
 					user_settings->shell = str_n_dup(row->value, MAX_SIZE);
-				} else if(!strcmp(row->key, "extra")) {
+				}
+				
+				#endif
+
+				if(!strcmp(row->key, "extra")) {
 
 					char str[MAX_SIZE] = {0};
 					int str_idx = 0;

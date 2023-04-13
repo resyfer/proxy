@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <include/update.h>
 #include <include/global.h>
+#include <include/update.h>
 
 void
 update(void)
@@ -17,8 +17,8 @@ update(void)
 
 	#elif _WIN32
 
-		char* command = malloc((54 + strlen(config_file_path) + 1) * sizeof(char));
-		sprintf(command, "Start-Process -FilePath \"notepad.exe\" -ArgumentList \"\"", config_file_path);
+		char* command = malloc((21 + strlen(config_file_path) + 1) * sizeof(char));
+		sprintf(command, "powershell -Command %s", config_file_path);
 
 	#endif
 

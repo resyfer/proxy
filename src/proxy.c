@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #ifdef __unix__
 #include <unistd.h>
@@ -7,12 +8,10 @@
 #include <io.h>
 #endif
 
-#include <string.h>
-
 #include <include/args.h>
+#include <include/colors.h>
 #include <include/config.h>
 #include <include/global.h>
-#include <include/colors.h>
 
 char* home;
 char* config_dir;
@@ -25,8 +24,6 @@ void
 global_vars(void)
 {
 	char buf[MAX_SIZE] = {0};
-
-	// TODO: Cross-platform
 
 	#ifdef __unix__
 

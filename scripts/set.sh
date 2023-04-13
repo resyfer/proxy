@@ -7,7 +7,6 @@ EXTRA_STR="$1"
 HOST=$2
 PORT=$3
 DE=$4 # Desktop Environment
-COLLEGE=$5
 
 PROXY_STR=http://$HOST:$PORT
 
