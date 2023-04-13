@@ -37,9 +37,25 @@ colorify(color_t color)
 	// 	exit(1);
 	// }
 
+	// Need to manually add it in a switch statement.
+	// Would love to change it to the COLOR_CODE(COLOR, STYLE) style.
 	switch(color) {
-	case BLACK | RED | GREEN | YELLOW | BLUE | PURPLE | CYAN | WHITE:
-		return COLOR_CODE(color, NORMAL);
+	case BLACK:
+		return COLOR_CODE(BLACK, NORMAL);
+	case RED:
+		return COLOR_CODE(RED, NORMAL);
+	case GREEN:
+		return COLOR_CODE(GREEN, NORMAL);
+	case YELLOW:
+		return COLOR_CODE(YELLOW, NORMAL);
+	case BLUE:
+		return COLOR_CODE(BLUE, NORMAL);
+	case PURPLE:
+		return COLOR_CODE(PURPLE, NORMAL);
+	case CYAN:
+		return COLOR_CODE(CYAN, NORMAL);
+	case WHITE:
+		return COLOR_CODE(WHITE, NORMAL);
 	default:
 		return "";
 	}

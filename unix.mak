@@ -25,7 +25,7 @@ endif
 VARIANT?=release
 
 # CC and C Flags
-CFLAGS=-std=gnu11 -D CONFIG_PATH=\"${CONFIG_PATH}\" -D SHELL_CONFIG_FILE=\"${SHELL_CONFIG_FILE}\" -D USER=\"${RUNNING_USER}\"
+CFLAGS=-std=gnu11 -D SHELL_CONFIG_FILE=\"${SHELL_CONFIG_FILE}\" -D USER=\"${RUNNING_USER}\"
 
 ifeq ($(VARIANT),debug)
 CFLAGS+= -Og
@@ -80,7 +80,8 @@ install: ./$(BIN_DIR)/$(BIN)
 	@sudo chown $(SUDO_USER):$(SUDO_USER) $(CONFIG_PATH)/proxy.sh
 	@if [ ! -f "$(CONFIG_PATH)/config" ] || [ "$(VARIANT)" = "debug" ]; \
 	then \
-		cp config $(CONFIG_PATH)/config; \
+		cp config_unix $(CONFIG_PATH); \
+		mv $(CONFIG_PATH)/config_unix $(CONFIG_PATH)/config; \
 		sudo chown $(SUDO_USER):$(SUDO_USER) $(CONFIG_PATH)/config; \
 	else \
 		echo "Skipping copying of sample config file"; \
