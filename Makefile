@@ -18,7 +18,7 @@ all:
 ifeq ($(OS),UNIX)
 	@echo "Executing Unix Makefile"
 	@$(MAKE) -f $(CURDIR)/unix.mak $(firstword $(MAKECMDGOALS)) BIN=$(BIN) VERSION=$(VERSION) OS=$(OS) ARCH=$(ARCH) VARIANT=$(VARIANT) SH=$(SHELL)
-else ifeq ($(OS),W32)
+else ifeq ($(OS),WIN32)
 	@echo Executing Windows Makefile
 	@$(MAKE) -f $(CURDIR)/win.mak $(firstword $(MAKECMDGOALS)) BIN=$(BIN) VERSION=$(VERSION) OS=$(OS) ARCH=$(ARCH) VARIANT=$(VARIANT)
 endif
