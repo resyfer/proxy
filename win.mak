@@ -56,7 +56,8 @@ install: ./$(BIN_DIR)/$(BIN) win.mak Makefile
 		echo "Proxy Config Directory already exists. Skipping..."; \
 	fi
 	@if [ ! -f $(CONFIG_PATH)/config ]; then \
-		cp ./config $(CONFIG_PATH); \
+		cp ./config_win $(CONFIG_PATH); \
+		mv $(CONFIG_PATH)/config_win $(CONFIG_PATH)/config; \
 	else \
 		echo "Config already exists. Skipping..."; \
 	fi

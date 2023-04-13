@@ -1,0 +1,15 @@
+[proxy]
+desktop = GNOME
+extra = git
+
+[BH9]
+host = 172.16.2.11
+port = 3128
+
+[Lab/Library]
+host = 172.16.199.20
+port = 8080
+
+[Other Hostels]
+host = 172.16.199.40
+port = 8080
