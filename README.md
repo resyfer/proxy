@@ -12,7 +12,7 @@ Cross-platform, and has 0 dependencies!!
 
 # Installation
 
-**NOTE: Installation instructions don't work yet as there are not releases, but the following instructions are for how it *will* work in future**. Please [build from source](#building-from-source) in the meantime till there's a stable release!
+**NOTE: Installation instructions don't work yet as there are not releases, but the following instructions are for how it *will* work in future**. Please [build from source](#development-and-building-from-source) in the meantime till there's a stable release!
 
 Just download the zips from the [Releases](https://github.com/resyfer/proxy/releases)
 according to your architecture and operating system. Unzip it and run the script
