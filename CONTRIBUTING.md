@@ -16,7 +16,7 @@ $ git remote add upstream https://github.com/resyfer/proxy.git
 11) Make your commits. Always rebase before push:
 
 ```sh
-$ git fetch upstream --all
+$ git fetch upstream
 $ git rebase upstream/main
 ```
 
