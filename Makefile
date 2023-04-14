@@ -15,6 +15,12 @@ TARGET=all
 endif
 
 all:
+	@if [ ! -d ./bin ]; then \
+		mkdir ./bin; \
+	fi
+	@if [ ! -d ./obj ]; then \
+		mkdir ./obj; \
+	fi
 ifeq ($(OS),UNIX)
 	@echo "Executing Unix Makefile"
 	@$(MAKE) -f $(CURDIR)/unix.mak $(firstword $(MAKECMDGOALS)) BIN=$(BIN) VERSION=$(VERSION) OS=$(OS) ARCH=$(ARCH) VARIANT=$(VARIANT) SH=$(SH)
