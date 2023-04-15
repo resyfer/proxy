@@ -10,7 +10,12 @@ int
 choice(void)
 {
 	char in[2] = {0};
-	fgets(in, 2, stdin);
+
+	if(!fgets(in, 2, stdin)) {
+		pcol("Error Getting Choice\n", RED);
+		exit(1);
+	}
+
 	in[1] = 0;
 
 	if(!strcmp(in, "y") || !strcmp(in, "Y")) {
@@ -49,18 +54,24 @@ uninstall(void)
 
 	load(&loader, RED);
 
-	system(command);
+	if(system(command)) {
+		// TODO
+	}
 
 	load(&loader, RED);
 
-	system("sudo rm /usr/bin/proxy");
+	if(system("sudo rm /usr/bin/proxy")) {
+
+	}
 
 	load(&loader, RED);
 
-	system("sed -i \"/source \\/home\\/" USER "\\/.config\\/proxy\\/proxy.sh/d\" /home/" USER "/" SHELL_CONFIG_FILE);
-	
+	if(system("sed -i \"/source \\/home\\/" USER "\\/.config\\/proxy\\/proxy.sh/d\" /home/" USER "/" SHELL_CONFIG_FILE)) {
+		// TODO
+	}
+
 	load(&loader, RED);
-	
+
 	pcol("Done!\n", RED);
 
 	#elif _WIN32
@@ -74,5 +85,5 @@ uninstall(void)
 		pcol(buf, PURPLE);
 
 	#endif
-	
+
 }

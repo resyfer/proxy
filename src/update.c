@@ -22,7 +22,9 @@ update(void)
 
 	#endif
 
-	system(command);
+	if(system(command)) {
+		// TODO
+	}
 
 	#ifdef __unix__
 

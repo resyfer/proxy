@@ -54,7 +54,10 @@ static int
 get_choice(settings_t *conf, const char* def)
 {
 	char input[9]; // max 8-digit input
-	fgets(input, 9, stdin);
+	if(!fgets(input, 9, stdin)) {
+		pcol("Error Getting Choice\n", RED);
+		exit(1);
+	}
 	input[8] = 0;
 
 	if(!strcmp(input, "\n")) {
@@ -80,7 +83,7 @@ static void
 set_source_file(proxy_t *proxy)
 {
 	#ifdef __unix__
-	
+
 	FILE *sh = fopen(source_path, "w+");
 	fprintf(sh, "#!/bin/bash\n");
 	fprintf(sh, "alias sudo='sudo -E'\n");
