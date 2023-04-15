@@ -1,0 +1,28 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-unix:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v3
+    - name: Build on Unix
+      run: make
+    - name: Proxy on Unix
+      run: echo "1" | ./bin/proxy
+    - name: Source Bashrc
+      run: source ~/.bashrc
+    - name: Check HTTP Environment Variables
+      run: if ! [ ! -z "${http_proxy}" -a "${http_proxy}" = "http://172.16.2.11:3128" ]; then echo "Incorrect HTTP Env Var"; exit 1; fi
+    - name: Check HTTPS Environment Variables
+      run: if ! [ ! -z "${https_proxy}" -a "${https_proxy}" = "http://172.16.2.11:3128" ]; then echo "Incorrect HTTPS Env Var"; exit 1; fi
