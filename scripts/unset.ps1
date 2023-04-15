@@ -1,7 +1,8 @@
 $EXTRA_STR=$args[0]
 $EXTRA=$EXTRA_STR -split ","
 
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value "0"
+$PROXY_SETTING_PATH = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+Set-ItemProperty -Path $PROXY_SETTING_PATH -Name ProxyEnable -Value "0"
 
 for($i=0; $i -lt $EXTRA.Length; $i++) {
     $item = $EXTRA[$i]

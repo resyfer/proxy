@@ -6,8 +6,9 @@ $PORT=$args[2]
 
 $PROXY_STR="http://${IP}:${PORT}"
 
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyServer -Value $PROXY_STR
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value "1"
+$PROXY_SETTING_PATH = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+Set-ItemProperty -Path $PROXY_SETTING_PATH -Name ProxyEnable -Value "1"
+Set-ItemProperty -Path $PROXY_SETTING_PATH -Name ProxyServer -Value "${IP}:${PORT}"
 
 for($i=0; $i -lt $EXTRA.Length; $i++) {
     $item = $EXTRA[$i]

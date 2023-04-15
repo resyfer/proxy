@@ -89,12 +89,10 @@ parser(config_t **conf, const char* path)
 	for(int i = 0; i<conf_size; i++)
 	{
 		// {LF}*
-
-		#ifdef __unix__
-		while(i < conf_size && file[i] == '\n') i++;
-		#elif _WIN32
-		while(i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n') i+=2;
-		#endif
+		while((i < conf_size && file[i] == '\n') || (i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n')) {
+			if(file[i] == '\n') i++; // LF
+			else i+=2; // CRLF
+		}
 
 		// EOF
 		if(i == conf_size) {
@@ -128,11 +126,10 @@ parser(config_t **conf, const char* path)
 			while(true)
 			{
 				// {LF}+
-				#ifdef __unix__
-				while(i < conf_size && file[i] == '\n') i++;
-				#elif _WIN32
-				while(i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n') i+=2;
-				#endif
+				while((i < conf_size && file[i] == '\n') || (i < conf_size - 1 && file[i] == '\r' && file[i+1] == '\n')) {
+					if(file[i] == '\n') i++; // LF
+					else i+=2; // CRLF
+				}
 
 				// EOF
 				if(i == conf_size) {
@@ -182,15 +179,8 @@ parser(config_t **conf, const char* path)
 				// TEXT (Value)
 				str_rst(buf);
 				buf_idx = 0;
-				
-				#ifdef __unix__
-				while(buf_idx < MAX_SIZE && i < conf_size && file[i] != '\n')
-					buf[buf_idx++] = file[i++];
-				#elif _WIN32
-				while(buf_idx < MAX_SIZE &&
-						(i < conf_size && file[i] != '\r' && file[i+1] != '\n'))
-					buf[buf_idx++] = file[i++];
-				#endif
+				while(buf_idx < MAX_SIZE && i < conf_size && !(file[i] == '\n' || (file[i] == '\r' && file[i + 1] == '\n')))
+					buf[buf_idx++]  = file[i++];
 
 				if(buf_idx == MAX_SIZE) {
 					is_invalid = true;
