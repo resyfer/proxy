@@ -17,9 +17,9 @@ jobs:
     - name: Code Checkout
       uses: actions/checkout@v3
     - name: Build on Unix
-      run: make
+      run: sudo make install
     - name: Proxy on Unix
-      run: echo "1" | ./bin/proxy
+      run: echo "1" | proxy
     - name: Source Bashrc
       run: source ~/.bashrc
     - name: Check HTTP Environment Variables
