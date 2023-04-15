@@ -33,6 +33,8 @@ config_parse(settings_t **conf)
 	user_settings->proxy = malloc(sizeof(proxy_t) * user_settings->proxy_count);
 	user_settings->extras_count = 0;
 	user_settings->extras = NULL;
+	user_settings->desktop = NULL;
+	user_settings->shell = NULL;
 
 	#ifdef _WIN32
 	user_settings->desktop = NULL;
@@ -60,7 +62,7 @@ config_parse(settings_t **conf)
 				} else if(!strcmp(row->key, "shell")) {
 					user_settings->shell = str_n_dup(row->value, MAX_SIZE);
 				}
-				
+
 				#endif
 
 				if(!strcmp(row->key, "extra")) {

@@ -189,8 +189,6 @@ parser(config_t **conf, const char* path)
 
 				row->value = str_n_dup(buf, MAX_SIZE);
 
-				printf("%s\n", row->value);
-
 				// Appending to table
 				table->n_rows++;
 				table->rows = realloc(table->rows, table->n_rows * sizeof(row_t*));

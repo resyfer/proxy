@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build-unix:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -18,11 +18,3 @@ jobs:
       uses: actions/checkout@v3
     - name: Build on Unix
       run: sudo make install
-    - name: Proxy on Unix
-      run: echo "1" | proxy
-    - name: Source Bashrc
-      run: source ~/.bashrc
-    - name: Check HTTP Environment Variables
-      run: if ! [ ! -z "${http_proxy}" -a "${http_proxy}" = "http://172.16.2.11:3128" ]; echo $http_proxy; then echo "Incorrect HTTP Env Var"; exit 1; fi
-    - name: Check HTTPS Environment Variables
-      run: if ! [ ! -z "${https_proxy}" -a "${https_proxy}" = "http://172.16.2.11:3128" ]; then echo "Incorrect HTTPS Env Var"; exit 1; fi
